@@ -32,7 +32,9 @@ const App = () => {
   };
 
   return (
-    <Layout style={{ display: "flex", flexDirection: "column" }}>
+    <Layout
+      style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+    >
       <Header
         style={{
           position: "sticky",
@@ -63,6 +65,7 @@ const App = () => {
       </Header>
       <Content
         style={{
+          flexGrow: 1,
           width: "100%",
           backgroundColor: "#f0f0f0",
           padding: 20,
@@ -75,10 +78,12 @@ const App = () => {
       <Footer
         style={{
           position: "static",
+          bottom: 0,
           textAlign: "center",
           fontWeight: "600",
           backgroundColor: "#1f1f1f",
           color: "white",
+          width: "100%",
         }}
       >
         99Tech Code Challenge - Solutions provided by Luu Duc Hung

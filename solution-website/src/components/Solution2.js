@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Card, InputNumber } from "antd";
+import { Card, InputNumber, Spin } from "antd";
 import { Button, Col, Form, Row, Select, Space, theme } from "antd";
 import { SwapOutlined } from "@ant-design/icons";
 import { Divider } from "antd";
 import currencies from "../data/currencies";
-import { debounce } from "lodash";
+import { debounce, set } from "lodash";
 
 const { Option } = Select;
 
@@ -20,6 +20,8 @@ function toMaxFixed(value, decimalPlaces) {
 }
 
 const AdvancedSearchForm = ({
+  isLoading,
+  setIsLoading,
   setResult,
   isConverted,
   setIsConverted,
@@ -51,6 +53,7 @@ const AdvancedSearchForm = ({
 
   // Load images for both currencies
   useEffect(() => {
+    setIsLoading(true);
     const loadImages = async (currencies) => {
       let images = {};
       for (let currency of currencies) {
@@ -68,6 +71,8 @@ const AdvancedSearchForm = ({
       const images2 = await loadImages(currencyData2);
       setTokenImages1(images1);
       setTokenImages2(images2);
+
+      setIsLoading(false);
     };
 
     loadImagesForBothCurrencies();
@@ -343,6 +348,7 @@ const AdvancedSearchForm = ({
 };
 
 function Solution2() {
+  const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(toMaxFixed(0, 8));
   const [isConverted, setIsConverted] = useState(false);
   const [conversionRate1, setConversionRate1] = useState(0);
@@ -386,21 +392,39 @@ function Solution2() {
         paddingRight: "0.5em",
       }}
     >
-      <AdvancedSearchForm
-        isConverted={isConverted}
-        setIsConverted={setIsConverted}
-        currencyData1={currencyData1}
-        currencyData2={currencyData2}
-        selectedCurrency1={selectedCurrency1}
-        setSelectedCurrency1={setSelectedCurrency1}
-        selectedCurrency2={selectedCurrency2}
-        setSelectedCurrency2={setSelectedCurrency2}
-        tokenImages1={tokenImages1}
-        setTokenImages1={setTokenImages1}
-        tokenImages2={tokenImages2}
-        setTokenImages2={setTokenImages2}
-        setResult={setResult}
-      />
+      {isLoading ? (
+        <div
+          style={{
+            textAlign: "center",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "10rem",
+          }}
+        >
+          <Spin size="large" />
+        </div>
+      ) : (
+        <AdvancedSearchForm
+          loading={isLoading}
+          setIsLoading={setIsLoading}
+          isConverted={isConverted}
+          setIsConverted={setIsConverted}
+          currencyData1={currencyData1}
+          currencyData2={currencyData2}
+          selectedCurrency1={selectedCurrency1}
+          setSelectedCurrency1={setSelectedCurrency1}
+          selectedCurrency2={selectedCurrency2}
+          setSelectedCurrency2={setSelectedCurrency2}
+          tokenImages1={tokenImages1}
+          setTokenImages1={setTokenImages1}
+          tokenImages2={tokenImages2}
+          setTokenImages2={setTokenImages2}
+          setResult={setResult}
+        />
+      )}
+
       {isConverted && (
         <div
           style={{

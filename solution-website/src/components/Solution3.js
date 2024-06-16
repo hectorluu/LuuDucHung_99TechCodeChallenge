@@ -68,7 +68,7 @@ const refactoredCode3 = `const sortedBalances = useMemo(() => {
         return lhs.amount - rhs.amount;
       }
     });
-}, [balances, prices]);`;
+}, [balances]);`;
 
 const refactoredCode4 = `const formattedBalances = useMemo(() => {
   return sortedBalances.map((balance: WalletBalance) => {
@@ -248,6 +248,7 @@ function Solution3() {
             Therefore, the logic should be that we filter out balances with an
             amount of 0 or less.
           </p>
+          <p>Besides, the prices dependency is unused also.</p>
           <p>
             It also lacks of handling the equal case as well. Here's the
             refactored code:

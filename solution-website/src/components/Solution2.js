@@ -80,7 +80,7 @@ const AdvancedSearchForm = ({
       From: selectedCurrency1,
       To: selectedCurrency2,
     });
-    form.submit();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCurrency1, selectedCurrency2]);
 
@@ -105,7 +105,7 @@ const AdvancedSearchForm = ({
               <span style={{ fontSize: "1.2em", fontWeight: 650 }}>Amount</span>
             }
             rules={[
-              { required: true, message: "Please input an amount!" },
+              { required: true, message: "Please input a valid amount!  " },
               {
                 type: "number",
                 min: 0,
@@ -165,7 +165,7 @@ const AdvancedSearchForm = ({
               style={{ height: "4rem" }}
               onChange={(value) => {
                 setSelectedCurrency1(value);
-                debounce(() => form.submit(), 500);
+                form.submit();
               }}
             >
               {currencyData1.map((currency) => (
@@ -240,7 +240,7 @@ const AdvancedSearchForm = ({
               style={{ height: "4rem" }}
               onChange={(value) => {
                 setSelectedCurrency2(value);
-                debounce(() => form.submit(), 500);
+                form.submit();
               }}
             >
               {currencyData2.map((currency) => (
@@ -277,7 +277,7 @@ const AdvancedSearchForm = ({
       (c) => c.currency === selectedCurrency2
     ).price;
     const conversionResult = (amount * price1) / price2;
-    setResult(conversionResult);
+    setResult(toMaxFixed(conversionResult, 8));
     setIsConverted(true);
   };
 
@@ -372,8 +372,8 @@ function Solution2() {
     let conversionrateTemp1 = price1 / price2;
     let conversionrateTemp2 = price2 / price1;
 
-    setConversionRate1(conversionrateTemp1);
-    setConversionRate2(conversionrateTemp2);
+    setConversionRate1(toMaxFixed(conversionrateTemp1, 8));
+    setConversionRate2(toMaxFixed(conversionrateTemp2, 8));
   }, [selectedCurrency1, selectedCurrency2]);
 
   return (
@@ -445,8 +445,8 @@ function Solution2() {
         </li>
       </ul>
       <p>
-        Besides, because there are a lot of repeated currencies so I removed
-        those in the provided json file.
+        Besides, while solving this problem, because there are a lot of repeated
+        currencies so I removed those in the provided json file.
       </p>
     </Card>
   );

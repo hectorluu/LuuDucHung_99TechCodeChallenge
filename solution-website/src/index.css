@@ -46,3 +46,11 @@ ul {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+p {
+  margin-bottom: 5px;
+}
+
+.gap-top {
+  margin-top: 10px;
+}
